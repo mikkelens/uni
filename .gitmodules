@@ -1,0 +1,3 @@
+[submodule "handouts"]
+	path = handouts
+	url = https://github.com/mikkelens/handouts
