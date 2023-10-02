@@ -1,3 +1,7 @@
+/**
+ * Representing a nail.
+ * @author Mikkel Stuckert 2023-10-01
+ */
 public class Nail {
     private String material;
     private int diameter;

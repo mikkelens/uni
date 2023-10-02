@@ -1,5 +1,9 @@
 import java.util.List;
 
+/**
+ * Representing a way of testing Box/nail methods
+ * @author Mikkel Stuckert 2023-10-01
+ */
 public class Driver {
     public static void exam() {
         Nail[] nails = new Nail[] {
