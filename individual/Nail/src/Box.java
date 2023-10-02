@@ -24,7 +24,7 @@ public class Box {
 
     public List<Nail> find(String material) {
         return this.nails.stream()
-                .filter(nail -> nail.getMaterial().toLowerCase() == material.toLowerCase())
+                .filter(nail -> nail.getMaterial().toLowerCase().equals(material.toLowerCase()))
                 .collect(Collectors.toList());
     }
 
