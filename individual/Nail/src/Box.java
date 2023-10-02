@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,16 +43,8 @@ public class Box {
 
     public void printBox() {
         List<Nail> nails_sorted = new ArrayList<>(this.nails);
-        nails_sorted.sort((a, b) -> {
-            // lambdas are technically declarative, not imperative,
-            // but I don't think reimplementing a specific sorting algorithm myself is the point of this assignment
-            if (a.getLength() != b.getLength()) {
-                return Integer.compare(b.getLength(), a.getLength()); // descending order
-            }
-            return a.getMaterial().compareTo(b.getMaterial()); // ascending alphabetical order
-        });
+        Collections.sort(nails_sorted);
 
-        // this is not getting accepted by the test server, and I don't think it's possible for me to know why
         System.out.println(this.name + ": " + nails_sorted);
     }
 }

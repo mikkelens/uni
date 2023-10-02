@@ -1,7 +1,8 @@
 /**
  * Represents a type of vegetable
+ * @author Mikkel Stuckert 2023-10-01
  */
-public class Vegetable {
+public class Vegetable implements Comparable<Vegetable> {
     private final String name;
     private final boolean organic;
     private final int number;
@@ -28,5 +29,13 @@ public class Vegetable {
         return this.getNumber()
                 + (this.isOrganic() ? " organic " : " non-organic ")
                 + this.getName();
+    }
+
+    @Override
+    public int compareTo(Vegetable o) {
+        if (!this.getName().equals(o.getName())) {
+            return this.getName().compareTo(o.getName()); // ascending alphabetical order
+        }
+        return Integer.compare(o.getNumber(), this.getNumber()); // descending order
     }
 }

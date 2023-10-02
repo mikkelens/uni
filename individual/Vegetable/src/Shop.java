@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Represents a grocery store with vegetables.
+ * @author Mikkel Stuckert 2023-10-01
  */
 public class Shop {
     private final String owner;
@@ -18,31 +20,31 @@ public class Shop {
     }
 
     public Vegetable find(boolean organic) {
-        return vegetables.stream()
-                .filter(v -> v.isOrganic() == organic)
-                .findAny()
-                .orElse(null);
+        for (Vegetable vegetable : vegetables) {
+            if (vegetable.isOrganic() == organic) {
+                return vegetable;
+            }
+        }
+        return null;
     }
 
     public boolean organic() {
-        int totalOrganic = vegetables.stream()
-                .filter(Vegetable::isOrganic)
-                .mapToInt(Vegetable::getNumber)
-                .sum();
-        int totalNonOrganic = vegetables.stream()
-                .filter(v -> !v.isOrganic())
-                .mapToInt(Vegetable::getNumber)
-                .sum();
+        int totalOrganic = 0;
+        int totalNonOrganic = 0;
+        for (Vegetable vegetable : vegetables) {
+            int number = vegetable.getNumber();
+            if (vegetable.isOrganic()) {
+                totalOrganic += number;
+            } else {
+                totalNonOrganic += number;
+            }
+        }
         return totalOrganic > totalNonOrganic;
     }
 
     public void printShop() {
-        List<Vegetable> sortedVegetables = vegetables.stream().sorted((a, b) -> {
-            if (!a.getName().equals(b.getName())) {
-                return a.getName().compareTo(b.getName());
-            }
-            return Integer.compare(b.getNumber(), a.getNumber()); // descending
-        }).toList();
+        List<Vegetable> sortedVegetables = new ArrayList<>(vegetables);
+        Collections.sort(sortedVegetables);
         System.out.println(owner + ": " + sortedVegetables);
     }
 }

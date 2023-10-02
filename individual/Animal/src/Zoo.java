@@ -1,9 +1,10 @@
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Represents a zoo with animals.
+ * @author Mikkel Stuckert 2023-10-01
  */
 public class Zoo {
     private final String name;
@@ -18,28 +19,33 @@ public class Zoo {
         this.animals.add(a);
     }
 
-    int animals() {
-        return animals.stream()
-                .filter(animal -> animal.getFemales() > 0 && animal.getMales() > 0)
-                .mapToInt(Animal::totalAnimals)
-                .sum();
+    public int animals() {
+        int count = 0;
+        for (Animal animal : animals) {
+            if (animal.getFemales() > 0 && animal.getMales() > 0) {
+                count += animal.totalAnimals();
+            }
+        }
+        return count;
     }
 
     public Animal largestPopulation() {
-        return animals.stream()
-                .max(Comparator.comparingInt(Animal::totalAnimals))
-                .orElse(null);
+        Animal largestAnimal = null;
+        int maxPopulation = Integer.MIN_VALUE;
+        for (Animal animal : animals) {
+            int totalAnimals = animal.totalAnimals();
+            if (totalAnimals > maxPopulation) {
+                maxPopulation = totalAnimals;
+                largestAnimal = animal;
+            }
+        }
+        return largestAnimal;
     }
 
     public void printZoo() {
-        List<Animal> animals = this.animals.stream()
-                .sorted((a1, a2) -> { // sort by amount of females, otherwise amount of males
-                    if (a1.getFemales() != a2.getFemales()) {
-                        return Integer.compare(a2.getFemales(), a1.getFemales()); // descending order
-                    }
-                    return Integer.compare(a2.getMales(), a1.getMales()); // descending order
-                })
-                .toList();
-        System.out.println(name + ": " + animals);
+        List<Animal> sortedAnimals = new ArrayList<>(animals);
+        Collections.sort(sortedAnimals);
+
+        System.out.print(name + ": " + sortedAnimals + "\n");
     }
 }

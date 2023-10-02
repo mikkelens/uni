@@ -1,7 +1,8 @@
 /**
  * Represents a certain species of animal.
+ * @author Mikkel Stuckert 2023-10-01
  */
-public class Animal {
+public class Animal implements Comparable<Animal> {
     private final String name;
     private final int females;
     private final int males;
@@ -20,11 +21,19 @@ public class Animal {
         return males;
     }
 
-    public String toString() {
-        return name + ": " + getFemales() + " females and " + getMales() + " males";
+    public int totalAnimals() {
+        return getMales() + getFemales();
     }
 
-    int totalAnimals() {
-        return getMales() + getFemales();
+    public String toString() {
+        return name + ": " + getFemales() + " female and " + getMales() + " male";
+    }
+
+    @Override
+    public int compareTo(Animal o) {
+        if (this.getFemales() != o.getFemales()) {
+            return Integer.compare(o.getFemales(), this.getFemales());
+        }
+        return Integer.compare(o.getMales(), this.getMales());
     }
 }
