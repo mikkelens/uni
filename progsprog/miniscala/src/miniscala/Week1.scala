@@ -3,16 +3,16 @@ package miniscala
 import scala.Console.err
 
 object Week1 {
-
+  
   import miniscala.Ast.*
   import miniscala.parser.*
-
+  
   def main(args: Array[String]): Unit = {
     val a1 = BinOpExp(IntLit(2), MinusBinOp(), IntLit(10))
     val a2 = Parser.parse("2-10")
     //    err.println("Invoking toString on the AST gives: " + a2)
     assert(a1 == a2, "Parsing works as intended")
-
+    
     val b1 = BinOpExp(
       BinOpExp(IntLit(44), MinusBinOp(), IntLit(2)),
       MaxBinOp(),
@@ -23,21 +23,24 @@ object Week1 {
     assert(b1 == b2)
     val b2result = Interpreter.eval(b2);
     assert(b2result == 87)
-
+    
     val c1 = BinOpExp(IntLit(6), MultBinOp(), BinOpExp(IntLit(2), MinusBinOp(), IntLit(10)))
     val c2u = "(6*(2-10))"
     val c2 = Parser.parse(c2u)
     assert(c1 == c2, s"$c1 != $c2")
     val c1u = Unparser.unparse(c1)
     assert(c1u == c2u, s"$c1u != $c2u")
-
-    for (program <- Array("")) {
-      assert(Parser.parse(Unparser.unparse(Parser.parse(program))) == Parser.parse(program), s"Unparsed $program incorrectly!")
+    
+    // test parse/unparse work together as expected ("unparsing is correct")
+    val programs = Array("100-(10+(0*2))*4", "10-4*2", "((10-1)*4)", "(10*4)-(2+1)")
+    for (program <- programs) {
+      assert(Parser.parse(Unparser.unparse(Parser.parse(program))) == Parser.parse(program),
+        s"Unparsed $program incorrectly!")
     }
-
+    
     println("Assertions completed successfully!")
   }
-
+  
   /* Notes for Week1-9
 My stdout (as it was):
 BinOpExp: BinOpExp(IntLit(1),PlusBinOp(),IntLit(2)) MultBinOp() IntLit(3)
